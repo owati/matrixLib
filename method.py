@@ -52,7 +52,12 @@ def cofactor(mat,coord):
     elif type(coord) != tuple and type(coord) != list:
         raise TypeError(f'{coord} is not of type list o tuple')
     else:
-        return det(minor(mat,coord))
+
+        mat2 = minor(mat,coord)
+        if (coord[0] % 2 == 1 and coord[1] % 2 == 1) or (coord[0] % 2 == 0 and coord[1] % 2 == 0):
+            return det(mat2)
+        else:
+            return -det(mat2)            
     
 '''
     to find the transpose of the matrix
@@ -74,6 +79,13 @@ def adjoint(mat):
     if type(mat) != Matrix:
         raise TypeError('this is not of type matrix')
     else:
+        if mat.column == 2:
+            mat2 = Matrix(2,2)
+            mat2.addElement(mat.data[0][0], 2,2)
+            mat2.addElement(mat.data[1][1], 1,1)
+            mat2.addElement(-mat.data[0][1], 1, 2)
+            mat2.addElement(-mat.data[1][0], 2, 1)
+            return mat2
         mat2 = Matrix(mat.rows, mat.column)
         for i in range(mat.rows):
             for j in range(mat.column):
